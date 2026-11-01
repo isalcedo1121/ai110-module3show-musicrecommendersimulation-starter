@@ -101,83 +101,84 @@ pytest
 
 ## Sample Recommendation Output
 
+The CLI shows recommendations in a table with full scoring reasons.
+
 ```text
 Loaded songs: 18
 Profile: High-Energy Pop {'genre': 'pop', 'mood': 'happy', 'energy': 0.8}
 
 Top recommendations:
 
-1. Sunrise City - Score: 3.98
-Because: genre match (+2.0); mood match (+1.0); energy gap 0.02, similarity 0.98 (+0.98)
-
-2. Gym Hero - Score: 2.87
-Because: genre match (+2.0); mood mismatch (+0.0); energy gap 0.13, similarity 0.87 (+0.87)
-
-3. Rooftop Lights - Score: 1.96
-Because: genre mismatch (+0.0); mood match (+1.0); energy gap 0.04, similarity 0.96 (+0.96)
-
-4. Sidewalk Summit - Score: 0.98
-Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.02, similarity 0.98 (+0.98)
-
-5. Night Drive Loop - Score: 0.95
-Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.05, similarity 0.95 (+0.95)
+Rank | Song Title       | Score | Reasons
+-----------------------------------------------------------------------------
+   1 | Sunrise City     |  3.98 | genre match (+2.0); mood match (+1.0);
+     |                  |       |   energy gap 0.02, similarity 0.98 (+0.98)
+   2 | Gym Hero         |  2.87 | genre match (+2.0); mood mismatch (+0.0);
+     |                  |       |   energy gap 0.13, similarity 0.87 (+0.87)
+   3 | Rooftop Lights   |  1.96 | genre mismatch (+0.0); mood match (+1.0);
+     |                  |       |   energy gap 0.04, similarity 0.96 (+0.96)
+   4 | Sidewalk Summit  |  0.98 | genre mismatch (+0.0); mood mismatch
+     |                  |       |   (+0.0); energy gap 0.02, similarity 0.98
+     |                  |       |   (+0.98)
+   5 | Night Drive Loop |  0.95 | genre mismatch (+0.0); mood mismatch
+     |                  |       |   (+0.0); energy gap 0.05, similarity 0.95
+     |                  |       |   (+0.95)
 
 Profile: Chill Lofi {'genre': 'lofi', 'mood': 'chill', 'energy': 0.35}
 
 Top recommendations:
 
-1. Library Rain - Score: 4.00
-Because: genre match (+2.0); mood match (+1.0); energy gap 0.00, similarity 1.00 (+1.00)
-
-2. Midnight Coding - Score: 3.93
-Because: genre match (+2.0); mood match (+1.0); energy gap 0.07, similarity 0.93 (+0.93)
-
-3. Focus Flow - Score: 2.95
-Because: genre match (+2.0); mood mismatch (+0.0); energy gap 0.05, similarity 0.95 (+0.95)
-
-4. Spacewalk Thoughts - Score: 1.93
-Because: genre mismatch (+0.0); mood match (+1.0); energy gap 0.07, similarity 0.93 (+0.93)
-
-5. Coffee Shop Stories - Score: 0.98
-Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.02, similarity 0.98 (+0.98)
+Rank | Song Title          | Score | Reasons
+--------------------------------------------------------------------------------
+   1 | Library Rain        |  4.00 | genre match (+2.0); mood match (+1.0);
+     |                     |       |   energy gap 0.00, similarity 1.00 (+1.00)
+   2 | Midnight Coding     |  3.93 | genre match (+2.0); mood match (+1.0);
+     |                     |       |   energy gap 0.07, similarity 0.93 (+0.93)
+   3 | Focus Flow          |  2.95 | genre match (+2.0); mood mismatch (+0.0);
+     |                     |       |   energy gap 0.05, similarity 0.95 (+0.95)
+   4 | Spacewalk Thoughts  |  1.93 | genre mismatch (+0.0); mood match (+1.0);
+     |                     |       |   energy gap 0.07, similarity 0.93 (+0.93)
+   5 | Coffee Shop Stories |  0.98 | genre mismatch (+0.0); mood mismatch
+     |                     |       |   (+0.0); energy gap 0.02, similarity 0.98
+     |                     |       |   (+0.98)
 
 Profile: Intense Rock {'genre': 'rock', 'mood': 'intense', 'energy': 0.9}
 
 Top recommendations:
 
-1. Storm Runner - Score: 3.99
-Because: genre match (+2.0); mood match (+1.0); energy gap 0.01, similarity 0.99 (+0.99)
-
-2. Gym Hero - Score: 1.97
-Because: genre mismatch (+0.0); mood match (+1.0); energy gap 0.03, similarity 0.97 (+0.97)
-
-3. Prism Festival - Score: 0.94
-Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.06, similarity 0.94 (+0.94)
-
-4. Sunrise City - Score: 0.92
-Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.08, similarity 0.92 (+0.92)
-
-5. Sidewalk Summit - Score: 0.88
-Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.12, similarity 0.88 (+0.88)
+Rank | Song Title      | Score | Reasons
+----------------------------------------------------------------------------
+   1 | Storm Runner    |  3.99 | genre match (+2.0); mood match (+1.0);
+     |                 |       |   energy gap 0.01, similarity 0.99 (+0.99)
+   2 | Gym Hero        |  1.97 | genre mismatch (+0.0); mood match (+1.0);
+     |                 |       |   energy gap 0.03, similarity 0.97 (+0.97)
+   3 | Prism Festival  |  0.94 | genre mismatch (+0.0); mood mismatch
+     |                 |       |   (+0.0); energy gap 0.06, similarity 0.94
+     |                 |       |   (+0.94)
+   4 | Sunrise City    |  0.92 | genre mismatch (+0.0); mood mismatch
+     |                 |       |   (+0.0); energy gap 0.08, similarity 0.92
+     |                 |       |   (+0.92)
+   5 | Sidewalk Summit |  0.88 | genre mismatch (+0.0); mood mismatch
+     |                 |       |   (+0.0); energy gap 0.12, similarity 0.88
+     |                 |       |   (+0.88)
 
 Profile: Conflicting Preferences {'genre': 'pop', 'mood': 'sad', 'energy': 0.9}
 
 Top recommendations:
 
-1. Gym Hero - Score: 2.97
-Because: genre match (+2.0); mood mismatch (+0.0); energy gap 0.03, similarity 0.97 (+0.97)
-
-2. Sunrise City - Score: 2.92
-Because: genre match (+2.0); mood mismatch (+0.0); energy gap 0.08, similarity 0.92 (+0.92)
-
-3. Empty Station - Score: 1.48
-Because: genre mismatch (+0.0); mood match (+1.0); energy gap 0.52, similarity 0.48 (+0.48)
-
-4. Winter Window - Score: 1.29
-Because: genre mismatch (+0.0); mood match (+1.0); energy gap 0.71, similarity 0.29 (+0.29)
-
-5. Storm Runner - Score: 0.99
-Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.01, similarity 0.99 (+0.99)
+Rank | Song Title    | Score | Reasons
+--------------------------------------------------------------------------
+   1 | Gym Hero      |  2.97 | genre match (+2.0); mood mismatch (+0.0);
+     |               |       |   energy gap 0.03, similarity 0.97 (+0.97)
+   2 | Sunrise City  |  2.92 | genre match (+2.0); mood mismatch (+0.0);
+     |               |       |   energy gap 0.08, similarity 0.92 (+0.92)
+   3 | Empty Station |  1.48 | genre mismatch (+0.0); mood match (+1.0);
+     |               |       |   energy gap 0.52, similarity 0.48 (+0.48)
+   4 | Winter Window |  1.29 | genre mismatch (+0.0); mood match (+1.0);
+     |               |       |   energy gap 0.71, similarity 0.29 (+0.29)
+   5 | Storm Runner  |  0.99 | genre mismatch (+0.0); mood mismatch
+     |               |       |   (+0.0); energy gap 0.01, similarity 0.99
+     |               |       |   (+0.99)
 
 ```
 

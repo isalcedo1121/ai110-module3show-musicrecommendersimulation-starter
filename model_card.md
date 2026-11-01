@@ -94,6 +94,9 @@ All 21 tests passed with `python -m pytest`. These checks show how the rules
 behave, not measured accuracy: there is no labeled listener feedback to use as
 ground truth.
 
+These saved outputs use the earlier list layout. The current CLI shows the same
+baseline rankings, scores, and reasons in a table.
+
 **Baseline: High-Energy Pop**
 
 ```text
@@ -353,8 +356,8 @@ pop and happy, while the Lofi leader has much lower energy than the Rock leader.
 These observations don't measure listener satisfaction.
 
 After the experiment, the weights returned to genre=2, mood=1, and energy=1.
-The final CLI output matches all four saved baseline lists, including scores and
-reasons. All 21 tests pass with these restored weights.
+The final CLI rankings, scores, and reasons match all four saved baseline lists.
+All 21 tests pass with these restored weights.
 
 ---
 
@@ -372,7 +375,8 @@ The main lesson is that a recommendation depends on the data and scoring rules.
 A song starts as a CSV row, gets points for matching a profile, and takes its
 place in a sorted list. AI helped plan the rule, write the code and tests, and
 explain the output. Checks included real CLI runs, score calculations, and
-automated tests.
+automated tests. AI's scoring explanations needed double-checking against the
+CSV and the scoring rule.
 
 A key result is that simple rules gave the three main profiles different top
 songs without learning from listener behavior. The weight experiment kept the

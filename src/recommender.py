@@ -4,10 +4,7 @@ from dataclasses import asdict, dataclass
 
 @dataclass
 class Song:
-    """
-    Represents a song and its attributes.
-    Required by tests/test_recommender.py
-    """
+    """Store a song and all its CSV attributes."""
     id: int
     title: str
     artist: str
@@ -21,20 +18,14 @@ class Song:
 
 @dataclass
 class UserProfile:
-    """
-    Represents a user's taste preferences.
-    Required by tests/test_recommender.py
-    """
+    """Store a user's music preferences."""
     favorite_genre: str
     favorite_mood: str
     target_energy: float
     likes_acoustic: bool
 
 class Recommender:
-    """
-    OOP implementation of the recommendation logic.
-    Required by tests/test_recommender.py
-    """
+    """Recommend Song objects using the shared scoring functions."""
     def __init__(self, songs: List[Song]):
         """Store the song catalog."""
         self.songs = songs
