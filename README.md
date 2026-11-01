@@ -2,32 +2,68 @@
 
 ## Project Summary
 
-In this project you will build and explain a small music recommender system.
-
-Your goal is to:
-
-- Represent songs and a user "taste profile" as data
-- Design a scoring rule that turns that data into recommendations
-- Evaluate what your system gets right and wrong
-- Reflect on how this mirrors real world AI recommenders
-
-Replace this paragraph with your own summary of what your version does.
+This project will use 18 fictional songs to suggest music based on genre, mood,
+and energy. The Python CLI will show the top five songs and explain their scores.
 
 ---
 
 ## How The System Works
 
-Explain your design in plain language.
+Collaborative filtering uses patterns in other listeners' likes, skips, and
+playlists. Content-based filtering compares song features, like genre, mood,
+energy, and tempo, with user preferences.
 
-Some prompts to answer:
+This project uses content-based filtering because it has a fixed CSV and no
+listening histories. The weights are hand-written, not learned from users.
+Loading and scoring the CSV does not train a model.
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
+The loader will use Python's `csv` module and keep every column in each song
+dictionary and `Song` object. It will turn `id` into an integer and the other
+numbers into floats. Titles and artists identify songs. Genre describes style,
+mood describes feeling, and energy describes intensity. Only these last three
+features affect scores. Tempo, valence, danceability, and acousticness stay stored
+but unused in scoring.
 
-You can include a simple diagram or bullet list if helpful.
+The default preferences are:
+
+```python
+{"genre": "pop", "mood": "happy", "energy": 0.8}
+```
+
+In `UserProfile`, `favorite_genre` maps to `genre`, `favorite_mood` to `mood`,
+and `target_energy` to `energy`. We will keep `likes_acoustic` for compatibility
+with the tests, but it will not affect scores.
+
+Both the dictionary and class versions will use this rule:
+
+```text
+genre_match = 1 for an exact genre match, otherwise 0
+mood_match = 1 for an exact mood match, otherwise 0
+energy_similarity = max(0, 1 - abs(song_energy - target_energy))
+score = 2.0 * genre_match + 1.0 * mood_match + energy_similarity
+```
+
+A perfect match scores 4.0. Energy closer to the target earns more points;
+higher energy is not always better. For example, "Sunrise City" is pop, happy,
+and has energy 0.82. With the default profile, its score would be
+`2 + 1 + (1 - abs(0.82 - 0.8)) = 3.98`.
+
+These preferences can tell intense rock from chill lofi if the user asks for
+either style. The default happy-pop profile matches neither, so only energy
+separates them. The profile misses lyrics, language, favorite artists, and
+people who like several styles.
+
+We will score every song with reasons, then sort by highest score first.
+Ties will use the lowest numeric song ID first. We will return the top `k`;
+the CLI will request five.
+
+```text
+CSV + preferences -> load and convert numbers -> score all songs with reasons
+                  -> sort -> show top five
+```
+
+**Prediction to investigate:** Giving genre two points may lead to too many
+songs from one genre.
 
 ---
 
