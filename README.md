@@ -106,7 +106,7 @@ You can add more tests in `tests/test_recommender.py`.
 
 ```text
 Loaded songs: 18
-Profile: Happy Pop {'genre': 'pop', 'mood': 'happy', 'energy': 0.8}
+Profile: High-Energy Pop {'genre': 'pop', 'mood': 'happy', 'energy': 0.8}
 
 Top recommendations:
 
@@ -125,6 +125,63 @@ Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.02, similarit
 5. Night Drive Loop - Score: 0.95
 Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.05, similarity 0.95 (+0.95)
 
+Profile: Chill Lofi {'genre': 'lofi', 'mood': 'chill', 'energy': 0.35}
+
+Top recommendations:
+
+1. Library Rain - Score: 4.00
+Because: genre match (+2.0); mood match (+1.0); energy gap 0.00, similarity 1.00 (+1.00)
+
+2. Midnight Coding - Score: 3.93
+Because: genre match (+2.0); mood match (+1.0); energy gap 0.07, similarity 0.93 (+0.93)
+
+3. Focus Flow - Score: 2.95
+Because: genre match (+2.0); mood mismatch (+0.0); energy gap 0.05, similarity 0.95 (+0.95)
+
+4. Spacewalk Thoughts - Score: 1.93
+Because: genre mismatch (+0.0); mood match (+1.0); energy gap 0.07, similarity 0.93 (+0.93)
+
+5. Coffee Shop Stories - Score: 0.98
+Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.02, similarity 0.98 (+0.98)
+
+Profile: Intense Rock {'genre': 'rock', 'mood': 'intense', 'energy': 0.9}
+
+Top recommendations:
+
+1. Storm Runner - Score: 3.99
+Because: genre match (+2.0); mood match (+1.0); energy gap 0.01, similarity 0.99 (+0.99)
+
+2. Gym Hero - Score: 1.97
+Because: genre mismatch (+0.0); mood match (+1.0); energy gap 0.03, similarity 0.97 (+0.97)
+
+3. Prism Festival - Score: 0.94
+Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.06, similarity 0.94 (+0.94)
+
+4. Sunrise City - Score: 0.92
+Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.08, similarity 0.92 (+0.92)
+
+5. Sidewalk Summit - Score: 0.88
+Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.12, similarity 0.88 (+0.88)
+
+Profile: Conflicting Preferences {'genre': 'pop', 'mood': 'sad', 'energy': 0.9}
+
+Top recommendations:
+
+1. Gym Hero - Score: 2.97
+Because: genre match (+2.0); mood mismatch (+0.0); energy gap 0.03, similarity 0.97 (+0.97)
+
+2. Sunrise City - Score: 2.92
+Because: genre match (+2.0); mood mismatch (+0.0); energy gap 0.08, similarity 0.92 (+0.92)
+
+3. Empty Station - Score: 1.48
+Because: genre mismatch (+0.0); mood match (+1.0); energy gap 0.52, similarity 0.48 (+0.48)
+
+4. Winter Window - Score: 1.29
+Because: genre mismatch (+0.0); mood match (+1.0); energy gap 0.71, similarity 0.29 (+0.29)
+
+5. Storm Runner - Score: 0.99
+Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.01, similarity 0.99 (+0.99)
+
 ```
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
@@ -133,11 +190,10 @@ Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.05, similarit
 
 ## Experiments You Tried
 
-Use this section to document the experiments you ran. For example:
-
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
+Ran four baseline profiles with the same weights: Pop, Lofi, Rock, and
+Conflicting Preferences. Each main profile had a different top song. The
+conflicting profile ranked pop songs above sad songs. There is no listener
+feedback to measure accuracy. See the [baseline results and comparisons](model_card.md#7-evaluation).
 
 ---
 
