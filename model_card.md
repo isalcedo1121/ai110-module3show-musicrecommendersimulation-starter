@@ -21,16 +21,20 @@ Prompts:
 
 ## 3. How the Model Works  
 
-Explain your scoring approach in simple language.  
+This content-based recommender compares each song with the user's preferred
+genre, mood, and energy. An exact genre match earns 2 points and an exact mood
+match earns 1 point. Energy earns 1 minus the gap from the user's target, with
+a minimum of 0 points. Closer energy is better, not just higher energy. A perfect
+match earns 4 points. These rules are hand-written, not learned from listeners.
 
-Prompts:  
+The program scores every song and sorts by highest score without rounding.
+Equal scores use the lowest numeric song ID first. The CLI shows the top five
+with reasons. This replaces the starter's placeholder scoring and ranking.
 
-- What features of each song are used (genre, energy, mood, etc.)  
-- What user preferences are considered  
-- How does the model turn those into a score  
-- What changes did you make from the starter logic  
-
-Avoid code here. Pretend you are explaining the idea to a friend who does not program.
+A small adapter turns the class profile's favorite genre, favorite mood, and
+target energy into the same preferences used by the dictionary functions.
+Both versions share the scoring and explanations. The class returns the original
+Song objects. The likes_acoustic field stays available but does not affect scores.
 
 ---
 
