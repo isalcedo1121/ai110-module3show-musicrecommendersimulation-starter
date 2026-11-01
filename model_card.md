@@ -2,34 +2,34 @@
 
 ## 1. Model Name  
 
-Give your model a short, descriptive name.  
-Example: **VibeFinder 1.0**  
+VibeFinder 1.0
 
 ---
 
 ## 2. Intended Use  
 
-Describe what your recommender is designed to do and who it is for. 
-
-Prompts:  
-
-- What kind of recommendations does it generate  
-- What assumptions does it make about the user  
-- Is this for real users or classroom exploration  
+VibeFinder ranks songs in a fixed CSV using a user's genre, mood, and energy
+preferences. It's a classroom project for learning how recommendation rules
+work. It isn't a production music service or a tool for predicting emotions.
+It hasn't been validated for real listener satisfaction.
 
 ---
 
 ## 3. How the Model Works  
 
 This content-based recommender compares each song with the user's preferred
-genre, mood, and energy. An exact genre match earns 2 points and an exact mood
-match earns 1 point. Energy earns 1 minus the gap from the user's target, with
-a minimum of 0 points. Closer energy is better, not just higher energy. A perfect
-match earns 4 points. These rules are hand-written, not learned from listeners.
+genre (style), mood (feeling), and energy (intensity). An exact genre match earns
+2 points and an exact mood match earns 1 point. Energy earns 1 minus the gap
+from the user's target, with a minimum of 0 points. Closer energy is better,
+not just higher energy. A perfect
+match earns 4 points. The hand-chosen weights are genre=2, mood=1, and energy=1;
+they aren't trained on user behavior.
 
 The program scores every song and sorts by highest score without rounding.
 Equal scores use the lowest numeric song ID first. The CLI shows the top five
-with reasons. This replaces the starter's placeholder scoring and ranking.
+with reasons showing genre points, mood points, and the energy gap, similarity,
+and points. Requesting the top k returns up to k songs; an empty catalog or
+nonpositive k returns none.
 
 A small adapter turns the class profile's favorite genre, favorite mood, and
 target energy into the same preferences used by the dictionary functions.
@@ -40,26 +40,30 @@ Song objects. The likes_acoustic field stays available but does not affect score
 
 ## 4. Data  
 
-Describe the dataset the model uses.  
+The catalog has 18 fictional songs: the 10 starter songs plus eight synthetic
+additions with IDs 11–18. The original rows and header were kept. The additions
+include classical, hip-hop, folk, and EDM, with moods such as sad and nostalgic.
 
-Prompts:  
+All ten columns are retained: id, title, artist, genre, mood, energy, tempo_bpm,
+valence, danceability, and acousticness. IDs are integers; the five numerical
+features are stored as floats. Genre and mood stay text, as do title and artist.
+Only genre, mood, and energy affect scores. Energy, valence, danceability, and
+acousticness range from 0 to 1; tempo is in beats per minute.
 
-- How many songs are in the catalog  
-- What genres or moods are represented  
-- Did you add or remove data  
-- Are there parts of musical taste missing in the dataset  
+The catalog has 13 genre labels and uneven coverage. Lofi has three songs;
+pop, folk, and synthwave have two each; the other nine genres have one each.
+There are no lyrics, languages, or real listening histories, so the data covers
+only a small part of musical taste.
 
 ---
 
 ## 5. Strengths  
 
-Where does your system seem to work well  
-
-Prompts:  
-
-- User types for which it gives reasonable results  
-- Any patterns you think your scoring captures correctly  
-- Cases where the recommendations matched your intuition  
+The baseline puts clear feature matches first. Sunrise City leads Pop at 3.98:
+it matches pop and happy, and its energy is close to 0.8. Library Rain leads
+Lofi with a perfect 4.00 because all three features match. Storm Runner leads
+Rock at 3.99 with matching rock and intense labels and energy 0.91, close to
+0.9. The reasons show exactly where each song's points came from.
 
 ---
 
@@ -342,30 +346,36 @@ Compared with the baseline:
   (1.96). Prism Festival enters fifth at 1.88, and Winter Window leaves the top
   five. Gym Hero stays first, changing from 2.97 to 2.94.
 
-The experiment changes which features matter more. It does not show that one
-version is more accurate or preferred by a listener.
+All four profiles kept the same first-ranked song, but some lower ranks changed.
+The experiment shows a different tradeoff, not proof that one version is more
+accurate or preferred by a listener. As a feature check, the Pop leader matches
+pop and happy, while the Lofi leader has much lower energy than the Rock leader.
+These observations don't measure listener satisfaction.
+
+After the experiment, the weights returned to genre=2, mood=1, and energy=1.
+The final CLI output matches all four saved baseline lists, including scores and
+reasons. All 21 tests pass with these restored weights.
 
 ---
 
 ## 8. Future Work  
 
-Ideas for how you would improve the model next.  
-
-Prompts:  
-
-- Additional features or preferences  
-- Better ways to explain recommendations  
-- Improving diversity among the top results  
-- Handling more complex user tastes  
+- Add more songs across genres, moods, and energy levels.
+- Collect explicit likes and dislikes to check whether suggestions fit listeners.
+- Try a diversity rule so the top five don't repeat the same artist or genre too much.
 
 ---
 
 ## 9. Personal Reflection  
 
-A few sentences about your experience.  
+The main lesson is that a recommendation depends on the data and scoring rules.
+A song starts as a CSV row, gets points for matching a profile, and takes its
+place in a sorted list. AI helped plan the rule, write the code and tests, and
+explain the output. Checks included real CLI runs, score calculations, and
+automated tests.
 
-Prompts:  
-
-- What you learned about recommender systems  
-- Something unexpected or interesting you discovered  
-- How this changed the way you think about music recommendation apps  
+A key result is that simple rules gave the three main profiles different top
+songs without learning from listener behavior. The weight experiment kept the
+same leaders but changed some lower ranks. That shows a different tradeoff,
+not proof of better recommendations. A useful next step would be a broader
+catalog and real listener feedback.

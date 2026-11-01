@@ -24,7 +24,8 @@ mood describes feeling, and energy describes intensity. Only these last three
 features affect scores. Tempo, valence, danceability, and acousticness stay stored
 but unused in scoring.
 
-The default preferences are:
+The CLI runs High-Energy Pop, Chill Lofi, Intense Rock, and Conflicting
+Preferences. High-Energy Pop uses:
 
 ```python
 {"genre": "pop", "mood": "happy", "energy": 0.8}
@@ -62,9 +63,6 @@ CSV + preferences -> load and convert numbers -> score all songs with reasons
                   -> sort -> show top five
 ```
 
-**Prediction to investigate:** Giving genre two points may lead to too many
-songs from one genre.
-
 ---
 
 ## Getting Started
@@ -77,6 +75,7 @@ songs from one genre.
    python -m venv .venv
    source .venv/bin/activate      # Mac or Linux
    .venv\Scripts\activate         # Windows
+   ```
 
 2. Install dependencies
 
@@ -97,8 +96,6 @@ Run the starter tests with:
 ```bash
 pytest
 ```
-
-You can add more tests in `tests/test_recommender.py`.
 
 ---
 
@@ -184,8 +181,6 @@ Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.01, similarit
 
 ```
 
-**Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
-
 ---
 
 ## Experiments You Tried
@@ -212,14 +207,16 @@ these runs do not test long-term effects. See the [limitations](model_card.md#6-
 
 ## Reflection
 
-Read and complete `model_card.md`:
+The main lesson is how song data becomes a ranked list. The program reads each
+CSV row, converts the numbers, and compares genre, mood, and energy with a
+profile. It scores every song, sorts the results, and explains the top five.
+Simple rules gave Pop, Lofi, and Rock different top songs without training on
+listening history. AI helped with the plan, code, tests, and explanations.
+Checks used actual terminal output, score calculations, and automated tests.
 
-[**Model Card**](model_card.md)
-
-Write 1 to 2 paragraphs here about what you learned:
-
-- about how recommenders turn data into predictions
-- about where bias or unfairness could show up in systems like this
-
-
-
+Bias can come from both the data and the weights. There is only one rock song
+but three lofi songs, so some profiles have fewer exact matches. Giving energy
+more weight moved Storm Runner above sad songs for the conflicting profile.
+That made the list different, not proven better. A useful next step would be
+adding more song choices and collecting listener feedback. More detail is in
+the [Model Card](model_card.md).
