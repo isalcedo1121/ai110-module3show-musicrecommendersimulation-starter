@@ -191,23 +191,22 @@ Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.01, similarit
 ## Experiments You Tried
 
 Ran four baseline profiles with the same weights: Pop, Lofi, Rock, and
-Conflicting Preferences. Each main profile had a different top song. The
-conflicting profile ranked pop songs above sad songs. There is no listener
-feedback to measure accuracy. See the [baseline results and comparisons](model_card.md#7-evaluation).
+Conflicting Preferences. Then compared genre=2, mood=1, energy=1 with temporary
+weights genre=1, mood=1, energy=2. Rooftop Lights moved from third to second for
+Pop, and Storm Runner moved from fifth to third for Conflicting Preferences.
+Lofi and Rock kept the same order, with some score changes. The baseline weights
+are restored. Without listener feedback, these results do not measure accuracy.
+See the [saved outputs and comparisons](model_card.md#7-evaluation).
 
 ---
 
 ## Limitations and Risks
 
-Summarize some limitations of your recommender.
-
-Examples:
-
-- It only works on a tiny catalog
-- It does not understand lyrics or language
-- It might over favor one genre or mood
-
-You will go deeper on this in your model card.
+The 18-song catalog has only one rock song, compared with three lofi songs.
+Listeners asking for rock have fewer exact matches. The experimental conflicting
+profile had no sad songs in its top three because its sad options have low
+energy. Repeatedly favoring similar music could create a filter bubble, but
+these runs do not test long-term effects. See the [limitations](model_card.md#6-limitations-and-bias).
 
 ---
 

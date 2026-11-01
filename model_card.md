@@ -65,14 +65,16 @@ Prompts:
 
 ## 6. Limitations and Bias 
 
-Where the system struggles or behaves unfairly. 
-
-Prompts:  
-
-- Features it does not consider  
-- Genres or moods that are underrepresented  
-- Cases where the system overfits to one preference  
-- Ways the scoring might unintentionally favor some users  
+Of the 18 songs, lofi has 3, pop, folk, and synthwave have 2 each, and the other
+9 genres have 1 each.
+This gives rock listeners only one exact genre match, compared with three for
+lofi, so the baseline Rock top five includes four songs from other genres.
+The conflicting profile requests sad music, but no sad song reaches its
+experimental top three.
+Its only sad options have energy 0.19 and 0.38, so doubling energy points favors
+other moods and limits choices for listeners asking for high-energy sad music.
+A possible filter-bubble risk is repeatedly favoring similar songs, but these
+fixed runs do not show whether that happens over time.
 
 ---
 
@@ -218,6 +220,130 @@ other genres. Sunrise City (energy 0.82) and Sidewalk Summit (0.78) repeat acros
 Pop and Rock because their energies are close to both targets. Gym Hero,
 Sunrise City, and Storm Runner also repeat in the conflicting list for the
 reasons above. Genre and mood matches are rewarded, not required.
+
+**Controlled weight experiment**
+
+Baseline weights: genre=2.0, mood=1.0, energy=1.0.
+Experimental weights: genre=1.0, mood=1.0, energy=2.0.
+Only these weights and their point explanations changed. Songs, profiles,
+energy similarity, and tie handling stayed the same.
+
+**Experimental: High-Energy Pop**
+
+```text
+Profile: High-Energy Pop {'genre': 'pop', 'mood': 'happy', 'energy': 0.8}
+
+Top recommendations:
+
+1. Sunrise City - Score: 3.96
+Because: genre match (+1.0); mood match (+1.0); energy gap 0.02, similarity 0.98 (+1.96)
+
+2. Rooftop Lights - Score: 2.92
+Because: genre mismatch (+0.0); mood match (+1.0); energy gap 0.04, similarity 0.96 (+1.92)
+
+3. Gym Hero - Score: 2.74
+Because: genre match (+1.0); mood mismatch (+0.0); energy gap 0.13, similarity 0.87 (+1.74)
+
+4. Sidewalk Summit - Score: 1.96
+Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.02, similarity 0.98 (+1.96)
+
+5. Night Drive Loop - Score: 1.90
+Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.05, similarity 0.95 (+1.90)
+
+```
+
+**Experimental: Chill Lofi**
+
+```text
+Profile: Chill Lofi {'genre': 'lofi', 'mood': 'chill', 'energy': 0.35}
+
+Top recommendations:
+
+1. Library Rain - Score: 4.00
+Because: genre match (+1.0); mood match (+1.0); energy gap 0.00, similarity 1.00 (+2.00)
+
+2. Midnight Coding - Score: 3.86
+Because: genre match (+1.0); mood match (+1.0); energy gap 0.07, similarity 0.93 (+1.86)
+
+3. Focus Flow - Score: 2.90
+Because: genre match (+1.0); mood mismatch (+0.0); energy gap 0.05, similarity 0.95 (+1.90)
+
+4. Spacewalk Thoughts - Score: 2.86
+Because: genre mismatch (+0.0); mood match (+1.0); energy gap 0.07, similarity 0.93 (+1.86)
+
+5. Coffee Shop Stories - Score: 1.96
+Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.02, similarity 0.98 (+1.96)
+
+```
+
+**Experimental: Intense Rock**
+
+```text
+Profile: Intense Rock {'genre': 'rock', 'mood': 'intense', 'energy': 0.9}
+
+Top recommendations:
+
+1. Storm Runner - Score: 3.98
+Because: genre match (+1.0); mood match (+1.0); energy gap 0.01, similarity 0.99 (+1.98)
+
+2. Gym Hero - Score: 2.94
+Because: genre mismatch (+0.0); mood match (+1.0); energy gap 0.03, similarity 0.97 (+1.94)
+
+3. Prism Festival - Score: 1.88
+Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.06, similarity 0.94 (+1.88)
+
+4. Sunrise City - Score: 1.84
+Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.08, similarity 0.92 (+1.84)
+
+5. Sidewalk Summit - Score: 1.76
+Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.12, similarity 0.88 (+1.76)
+
+```
+
+**Experimental: Conflicting Preferences**
+
+```text
+Profile: Conflicting Preferences {'genre': 'pop', 'mood': 'sad', 'energy': 0.9}
+
+Top recommendations:
+
+1. Gym Hero - Score: 2.94
+Because: genre match (+1.0); mood mismatch (+0.0); energy gap 0.03, similarity 0.97 (+1.94)
+
+2. Sunrise City - Score: 2.84
+Because: genre match (+1.0); mood mismatch (+0.0); energy gap 0.08, similarity 0.92 (+1.84)
+
+3. Storm Runner - Score: 1.98
+Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.01, similarity 0.99 (+1.98)
+
+4. Empty Station - Score: 1.96
+Because: genre mismatch (+0.0); mood match (+1.0); energy gap 0.52, similarity 0.48 (+0.96)
+
+5. Prism Festival - Score: 1.88
+Because: genre mismatch (+0.0); mood mismatch (+0.0); energy gap 0.06, similarity 0.94 (+1.88)
+
+```
+
+Compared with the baseline:
+
+- **Pop:** Rooftop Lights moves from third (1.96) to second (2.92), ahead of
+  Gym Hero, which moves from second (2.87) to third (2.74). Rooftop Lights has
+  happy mood and energy 0.76, closer to the 0.8 target than Gym Hero's 0.93.
+  Reducing genre points and doubling energy points changes their order.
+  Sunrise City stays first, changing from 3.98 to 3.96.
+- **Lofi:** All five titles stay in the same order. Library Rain stays at 4.00;
+  Midnight Coding changes from 3.93 to 3.86 and Spacewalk Thoughts from 1.93
+  to 2.86. The perfect match keeps four points under either weight set.
+- **Rock:** All five titles stay in the same order. Storm Runner changes from
+  3.99 to 3.98, while Gym Hero changes from 1.97 to 2.94 because its energy
+  similarity of 0.97 now earns 1.94 points instead of 0.97.
+- **Conflicting Preferences:** Storm Runner moves from fifth (0.99) to third
+  (1.98), based only on energy. Empty Station moves from third (1.48) to fourth
+  (1.96). Prism Festival enters fifth at 1.88, and Winter Window leaves the top
+  five. Gym Hero stays first, changing from 2.97 to 2.94.
+
+The experiment changes which features matter more. It does not show that one
+version is more accurate or preferred by a listener.
 
 ---
 
